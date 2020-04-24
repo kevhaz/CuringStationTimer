@@ -42,6 +42,7 @@ uint32_t g_nopTimer = 0;
 uint32_t g_relayTimer = 0;
 uint32_t g_buzzerTimer = 0;
 uint32_t g_flashTimer = 0;
+uint32_t g_SleepTimer = 0;
 uint32_t g_millTO;
 uint32_t g_relayTimerSeccondCounter;
 uint32_t g_nopTimerSeccondCounter;
@@ -50,8 +51,6 @@ uint32_t g_boolScreenState;
 uint32_t g_numTimerSecs;
 
 LedControl g_lc=LedControl(9,8,7,1);
-
-
 
 
 void setup() {
@@ -120,6 +119,7 @@ void loop() {
             g_iOp = SLEEP;
             g_lc.shutdown(0,true);
             Serial.println( "Going to sleep" );
+            uint32_t g_SleepTimer = millis();
           } else {
             // in this state, we are looking for a button press. If the button goes LOW it was pressed. On a press we start the timer.
             int butState = digitalRead( PIN_BUTTON );
@@ -180,7 +180,7 @@ void loop() {
              g_nopTimer = millis();
              g_relayTimerSeccondCounter = 0;
        
-             digitalWrite( PIN_RELAY, HIGH );
+             digitalWrite( PIN_RELAY, LOW );
              digitalWrite( PIN_BUZZER, HIGH );              
              delay(100); // delay 1/4second to avoid and debounce.
              digitalWrite( PIN_BUZZER, LOW );  
